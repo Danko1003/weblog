@@ -37,7 +37,7 @@ public class LogfileReader implements Iterator<LogEntry>
     public LogfileReader(String filename)
     {
         // The format for the data.
-        format = "Year Month(1-12) Day Hour Minute";       
+        format = "Year Month(1-12) Day Hour Minute StatusCode";       
         // Where to store the data.
         entries = new ArrayList<>();
 
@@ -52,7 +52,19 @@ public class LogfileReader implements Iterator<LogEntry>
                 int[] values = Arrays.stream(parts)
                                      .mapToInt(Integer::parseInt)
                                      .toArray();
-                LogEntry entry = new LogEntry(values);
+                LogEntry entry;
+                
+                if (values.length == 6) {
+                   
+                    entry = new LogEntry(values);
+                } else if (values.length == 5) {
+                    
+                    entry = new LogEntry(values[0], values[1], values[2], values[3], values[4], 200);
+                } else {
+                    
+                    System.err.println("Skipping malformed line: " + logline);
+                    continue;
+                }
                 entries.add(entry);
             }
             dataRead = true;

@@ -65,7 +65,9 @@ public class LogfileCreator
         int day = 1 + rand.nextInt(28);
         int hour = rand.nextInt(24);
         int minute = rand.nextInt(60);
-        return new LogEntry(year, month, day, hour, minute);
+        int[] statusCodes = {200, 200, 200, 200, 403, 404}; 
+        int status = statusCodes[rand.nextInt(statusCodes.length)];
+        return new LogEntry(year, month, day, hour, minute, status);
     }
 
 }
